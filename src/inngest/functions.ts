@@ -23,6 +23,11 @@ export const execute = inngest.createFunction(
         model: google("gemini-2.5-flash"),
         system: "You are helpful assistant",
         prompt: "what is 2+2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -33,6 +38,11 @@ export const execute = inngest.createFunction(
         model: openai("gpt-5-nano"),
         system: "You are helpful assistant",
         prompt: "what is 2+2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
     const { steps: anthropicStep } = await step.ai.wrap(
@@ -42,6 +52,11 @@ export const execute = inngest.createFunction(
         model: anthropic("claude-3-100k"),
         system: "You are helpful assistant",
         prompt: "what is 2+2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
