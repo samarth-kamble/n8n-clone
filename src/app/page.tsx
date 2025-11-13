@@ -5,8 +5,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTRPC } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
 
-import { Logout } from "./logout";
-
 const Page = () => {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
@@ -35,7 +33,6 @@ const Page = () => {
         <Button disabled={testAi.isPending} onClick={() => testAi.mutate()}>
           Test AI
         </Button>
-        {data && <Logout />}
       </div>
     </div>
   );
