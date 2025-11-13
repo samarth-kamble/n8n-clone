@@ -24,6 +24,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscription";
 
 const menuItems = [
   {
@@ -51,6 +53,31 @@ const menuItems = [
 export const AppSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { hasActiveSubscription, isLoading } = useHasActiveSubscription();
+
+  const handleUpgradeToPro = async () => {
+    await authClient.checkout({
+      slug: "pro",
+    });
+  };
+
+  const handleBillingPortal = async () => {
+    await authClient.customer.portal();
+  };
+
+  const handleLogOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+          toast.success("Logged out successfully");
+        },
+        onError: () => {
+          toast.error("Failed to log out. Please try again.");
+        },
+      },
+    });
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -101,21 +128,23 @@ export const AppSidebar = () => {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuButton
-            tooltip={"Upgrade to Pro"}
-            className="gap-x-4 h-10 px-4"
-            onClick={() => {}}
-          >
-            <StarIcon className="size-4" />
-            <span>Upgrade to Pro</span>
-          </SidebarMenuButton>
-        </SidebarMenu>
+        {!hasActiveSubscription && !isLoading && (
+          <SidebarMenu>
+            <SidebarMenuButton
+              tooltip={"Upgrade to Pro"}
+              className="gap-x-4 h-10 px-4"
+              onClick={handleUpgradeToPro}
+            >
+              <StarIcon className="size-4" />
+              <span>Upgrade to Pro</span>
+            </SidebarMenuButton>
+          </SidebarMenu>
+        )}
         <SidebarMenu>
           <SidebarMenuButton
             tooltip={"Billing Portal"}
             className="gap-x-4 h-10 px-4"
-            onClick={() => {}}
+            onClick={handleBillingPortal}
           >
             <CreditCardIcon className="size-4" />
             <span>Billing Portal</span>
@@ -125,15 +154,7 @@ export const AppSidebar = () => {
           <SidebarMenuButton
             tooltip={"Log Out"}
             className="gap-x-4 h-10 px-4"
-            onClick={() => {
-              authClient.signOut({
-                fetchOptions: {
-                  onSuccess: () => {
-                    router.push("/login");
-                  },
-                },
-              });
-            }}
+            onClick={handleLogOut}
           >
             <LogOutIcon className="size-4" />
             <span>Log Out</span>
