@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import {
   ReactFlow,
   applyEdgeChanges,
@@ -17,15 +17,17 @@ import {
   Panel,
 } from "@xyflow/react";
 import { useSetAtom } from "jotai";
-
-import { ErrorView, LoadingView } from "@/components/entity-components";
-import { useSuspenseWorkflow } from "@/features/workflows/hooks/use-workflows";
+import { useTheme } from "next-themes";
 
 import "@xyflow/react/dist/style.css";
-import { useTheme } from "next-themes";
+import { ErrorView, LoadingView } from "@/components/entity-components";
+import { useSuspenseWorkflow } from "@/features/workflows/hooks/use-workflows";
 import { nodeComponents } from "@/config/node-components";
-import { AddNodeButton } from "./add-node-button";
 import { editorAtom } from "@/features/editor/store/atoms";
+import { NodeType } from "@/generated/prisma";
+
+import { AddNodeButton } from "./add-node-button";
+import { ExecuteWorkflowButton } from "./execute-workflow-button";
 
 export const EditorLoading = () => {
   return <LoadingView message="Loading editor...." />;
@@ -54,18 +56,22 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>
       setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
-    [],
+    []
   );
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) =>
       setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
-    [],
+    []
   );
   const onConnect = useCallback(
     (params: Connection) =>
       setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
-    [],
+    []
   );
+
+  const hasManualTrigger = useMemo(() => {
+    return nodes.some((node) => node.type === NodeType.MANUAL_TRIGGER);
+  }, [nodes]);
 
   if (!mounted) {
     return null;
@@ -95,6 +101,11 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         <Panel position={"top-right"}>
           <AddNodeButton />
         </Panel>
+        {hasManualTrigger && (
+          <Panel position="bottom-center">
+            <ExecuteWorkflowButton workflowId={workflowId} />
+          </Panel>
+        )}
       </ReactFlow>
     </div>
   );
