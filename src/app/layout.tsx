@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Provider } from "jotai";
 
 import "./globals.css";
 
@@ -28,10 +29,12 @@ export default function RootLayout({
       <body className={`${nunitoSans.variable} `}>
         <TRPCReactProvider>
           <NuqsAdapter>
-            <Toaster richColors position="top-right" />
-            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-              {children}
-            </ThemeProvider>
+            <Provider>
+              <Toaster richColors position="top-right" />
+              <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+                {children}
+              </ThemeProvider>
+            </Provider>
           </NuqsAdapter>
         </TRPCReactProvider>
       </body>

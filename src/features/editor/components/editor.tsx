@@ -16,6 +16,7 @@ import {
   MiniMap,
   Panel,
 } from "@xyflow/react";
+import { useSetAtom } from "jotai";
 
 import { ErrorView, LoadingView } from "@/components/entity-components";
 import { useSuspenseWorkflow } from "@/features/workflows/hooks/use-workflows";
@@ -24,6 +25,7 @@ import "@xyflow/react/dist/style.css";
 import { useTheme } from "next-themes";
 import { nodeComponents } from "@/config/node-components";
 import { AddNodeButton } from "./add-node-button";
+import { editorAtom } from "@/features/editor/store/atoms";
 
 export const EditorLoading = () => {
   return <LoadingView message="Loading editor...." />;
@@ -34,6 +36,8 @@ export const EditorError = () => {
 };
 
 export const Editor = ({ workflowId }: { workflowId: string }) => {
+  const setEditor = useSetAtom(editorAtom);
+
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -50,17 +54,17 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>
       setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
-    []
+    [],
   );
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) =>
       setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
-    []
+    [],
   );
   const onConnect = useCallback(
     (params: Connection) =>
       setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
-    []
+    [],
   );
 
   if (!mounted) {
@@ -76,8 +80,14 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeComponents}
+        onInit={setEditor}
         fitView
         colorMode={isDark ? "dark" : "light"}
+        snapGrid={[10, 10]}
+        snapToGrid
+        panOnScroll
+        // panOnDrag={false}
+        selectionOnDrag
       >
         <Background />
         <Controls />
