@@ -1,11 +1,19 @@
-import type { NodeExecutor } from "@/features/executions/lib/types";
 import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
+import Handlebars from "handlebars";
+
+import type { NodeExecutor } from "@/features/executions/lib/types";
+
+Handlebars.registerHelper("json", (context) => {
+  const jsonString = JSON.stringify(context, null, 2);
+  const safeString = new Handlebars.SafeString(jsonString);
+  return safeString;
+});
 
 type HttpRequestData = {
-  variableName?: string;
-  endpoint?: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  variableName: string;
+  endpoint: string;
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
 };
 
@@ -27,13 +35,21 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     throw new NonRetriableError("HTTP Request node missing variable name");
   }
 
+  if (!data.method) {
+    // TODO: Publish "Error" state for http request
+    throw new NonRetriableError("HTTP Request node missing method");
+  }
+
   const result = await step.run("http-request", async () => {
-    const endpoint = data.endpoint!;
-    const method = data.method || "GET";
+    const endpoint = Handlebars.compile(data.endpoint)(context);
+    const method = data.method;
 
     const option: KyOptions = { method };
+
     if (["POST", "PUT", "PATCH"].includes(method)) {
-      option.body = data.body;
+      const resolved = Handlebars.compile(data.body || "{}")(context);
+      JSON.parse(resolved);
+      option.body = resolved;
       option.headers = {
         "Content-Type": "application/json",
       };
@@ -53,17 +69,9 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
       },
     };
 
-    if (data.variableName) {
-      return {
-        ...context,
-        [data.variableName]: responsePayload,
-      };
-    }
-
-    // Fallback http response only HTTP Request
     return {
       ...context,
-      ...responsePayload,
+      [data.variableName]: responsePayload,
     };
   });
 
