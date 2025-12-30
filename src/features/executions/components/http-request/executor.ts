@@ -3,6 +3,7 @@ import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
 
 type HttpRequestData = {
+  variableName?: string;
   endpoint?: string;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
@@ -21,6 +22,11 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     throw new NonRetriableError("HTTP Request node missing endpoint");
   }
 
+  if (!data.variableName) {
+    // TODO: Publish "Error" state for http request
+    throw new NonRetriableError("HTTP Request node missing variable name");
+  }
+
   const result = await step.run("http-request", async () => {
     const endpoint = data.endpoint!;
     const method = data.method || "GET";
@@ -28,6 +34,9 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     const option: KyOptions = { method };
     if (["POST", "PUT", "PATCH"].includes(method)) {
       option.body = data.body;
+      option.headers = {
+        "Content-Type": "application/json",
+      };
     }
 
     const response = await ky(endpoint, option);
@@ -36,13 +45,25 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
       ? await response.json()
       : await response.text();
 
-    return {
-      ...context,
+    const responsePayload = {
       httpResponse: {
         status: response.status,
         statusText: response.statusText,
         data: responseData,
       },
+    };
+
+    if (data.variableName) {
+      return {
+        ...context,
+        [data.variableName]: responsePayload,
+      };
+    }
+
+    // Fallback http response only HTTP Request
+    return {
+      ...context,
+      ...responsePayload,
     };
   });
 
