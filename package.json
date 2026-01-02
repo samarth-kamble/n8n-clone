@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "ngrok:dev": "ngrok http --url=nonenvious-affectionally-jean.ngrok-free.dev 3000",
     "lint": "biome check",
     "format": "biome format --write"
   },
