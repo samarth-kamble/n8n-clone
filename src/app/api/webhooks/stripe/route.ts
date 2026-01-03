@@ -1,4 +1,4 @@
-import { inngest } from "@/inngest/client";
+import { stripeTriggerChannel } from "@/inngest/channels/stripe-trigger";
 import { sendWorkflowExecution } from "@/inngest/utils";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -19,33 +19,32 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const formData = {
-      formId: body.formId,
-      formTitle: body.formTitle,
-      responseId: body.responseId,
-      timestamp: body.timestamp,
-      respondentEmail: body.respondentEmail,
-      responses: body.responses,
-      raw: body,
+    const stripeData = {
+      // Event Meatadata
+      eventId: body.eventId,
+      eventType: body.type,
+      timestamp: body.created,
+      livemode: body.livemode,
+      raw: body.data?.object
     };
 
     await sendWorkflowExecution({
-      workflowId,
-      initialData: {
-        googleForm: formData,
-      },
-    });
+        workflowId,
+        initialData: {
+            stripe: stripeData
+        }
+    })
 
     return NextResponse.json({
-      status: 200,
+        status: 200,
       success: true,
-      message: "Google Form Submission processed successfully",
+      message: "Stripe Webhook processed successfully",
     });
   } catch (error) {
     console.log(error);
     return NextResponse.json({
       success: false,
-      message: "Failed to process Google Form Submission",
+      message: "Failed to process Stripe Webhook",
     });
   }
 }

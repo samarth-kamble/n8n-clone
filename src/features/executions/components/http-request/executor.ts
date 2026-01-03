@@ -12,9 +12,9 @@ Handlebars.registerHelper("json", (context) => {
 });
 
 type HttpRequestData = {
-  variableName: string;
-  endpoint: string;
-  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  variableName?: string;
+  endpoint?: string;
+  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
 };
 
@@ -66,6 +66,56 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     const result = await step.run("http-request", async () => {
       const endpoint = Handlebars.compile(data.endpoint)(context);
       const method = data.method;
+
+      if (!data.endpoint) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError("HTTP Request node missing endpoint");
+      }
+
+      if (!data.variableName) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError("HTTP Request node missing variable name");
+      }
+
+      if (!data.method) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError("HTTP Request node missing method");
+      }
+
+      if (!endpoint) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError("HTTP Request node missing endpoint");
+      }
+
+      if (!method) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError("HTTP Request node missing method");
+      }
 
       const option: KyOptions = { method };
 
