@@ -225,7 +225,7 @@ interface EntityListProps<T> {
   className?: string;
 }
 
-export function EmtityList<T>({
+export function EntityList<T>({
   items,
   renderItem,
   getKey,

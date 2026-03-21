@@ -7,7 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 
 import {
   EmptyView,
-  EmtityList,
+  EntityList,
   EntityContainer,
   EntityHeader,
   EntityItem,
@@ -47,7 +47,7 @@ export const WorkflowsList = () => {
   const workflows = useSuspenseWorkflows();
 
   return (
-    <EmtityList
+    <EntityList
       items={workflows.data.items}
       getKey={(workflow) => workflow.id}
       renderItem={(workflow) => <WorkflowItem data={workflow} />}
