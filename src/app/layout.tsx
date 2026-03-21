@@ -31,7 +31,11 @@ export default function RootLayout({
           <NuqsAdapter>
             <Provider>
               <Toaster richColors position="top-right" />
-              <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="light"
+                enableSystem
+              >
                 {children}
               </ThemeProvider>
             </Provider>
