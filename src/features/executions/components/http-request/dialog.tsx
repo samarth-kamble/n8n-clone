@@ -44,7 +44,6 @@ const formSchema = z.object({
   endpoint: z.string().min(1, { message: "Please enter a valid URL" }),
   method: z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
   body: z.string().optional(),
-  // TODO : .refine()
 });
 
 export type HttpRequestFormValues = z.infer<typeof formSchema>;
