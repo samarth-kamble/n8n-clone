@@ -31,13 +31,12 @@ import {
 type EntityHeaderProps = {
   title: string;
   description?: string;
-  newButtonLabel: string;
   disabled?: boolean;
   isCreating?: boolean;
 } & (
-  | { onNew: () => void; newButtonHref?: never }
-  | { newButtonHref: string; onNew?: never }
-  | { onNew?: never; newButtonHref?: never }
+  | { onNew: () => void; newButtonHref?: never; newButtonLabel: string }
+  | { newButtonHref: string; onNew?: never; newButtonLabel: string }
+  | { onNew?: never; newButtonHref?: never; newButtonLabel?: string }
 );
 
 export const EntityHeader = ({
@@ -60,13 +59,13 @@ export const EntityHeader = ({
         )}
       </div>
       {onNew && !newButtonHref && (
-        <Button disabled={disabled || isCreating} onClick={onNew} size={"sm"}>
+        <Button disabled={isCreating || disabled} size="sm" onClick={onNew}>
           <PlusIcon className="size-4" />
           {newButtonLabel}
         </Button>
       )}
       {newButtonHref && !onNew && (
-        <Button size={"sm"} asChild>
+        <Button size="sm" asChild>
           <Link href={newButtonHref} prefetch>
             <PlusIcon className="size-4" />
             {newButtonLabel}
