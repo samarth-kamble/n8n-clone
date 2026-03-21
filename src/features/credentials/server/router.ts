@@ -26,7 +26,7 @@ export const credentialsRouter = createTRPCRouter({
           name,
           userId: ctx.auth.user.id,
           type,
-          value, // TODO : Consider encryption in the pr
+          value,
         },
       });
     }),
@@ -60,7 +60,7 @@ export const credentialsRouter = createTRPCRouter({
         data: {
           name,
           type,
-          value, // TODO : Consider encryption in the pr
+          value,
         },
       });
     }),

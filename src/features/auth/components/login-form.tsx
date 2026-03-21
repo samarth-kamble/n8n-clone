@@ -46,6 +46,38 @@ export function LoginForm() {
     },
   });
 
+  const signInGithub = async () => {
+    await authClient.signIn.social(
+      {
+        provider: "github",
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: () => {
+          toast.error("Something went wrong");
+        },
+      },
+    );
+  };
+
+  const signInGoogle = async () => {
+    await authClient.signIn.social(
+      {
+        provider: "google",
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: () => {
+          toast.error("Something went wrong");
+        },
+      },
+    );
+  };
+
   const onSubmit = async (values: LoginFormValues) => {
     await authClient.signIn.email(
       {
@@ -85,6 +117,7 @@ export function LoginForm() {
             <Button
               variant="outline"
               type="button"
+              onClick={signInGithub}
               disabled={isPending}
               className="h-11 border-input text-foreground hover:bg-accent hover:text-accent-foreground transition-all dark:hover:bg-accent/80"
             >
@@ -95,6 +128,7 @@ export function LoginForm() {
               variant="outline"
               type="button"
               disabled={isPending}
+              onClick={signInGoogle}
               className="h-11 border-input text-foreground hover:bg-accent hover:text-accent-foreground transition-all dark:hover:bg-accent/80"
             >
               <FcGoogle className="mr-2 h-5 w-5" />
