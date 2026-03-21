@@ -53,7 +53,7 @@ const executionNodes: NodeTypeOption[] = [
     description: "Make HTTP requests to external APIs",
     icon: GlobeIcon,
   },
-      {
+  {
     type: NodeType.GEMINI,
     label: "Gemini",
     description: "Make requests to Gemini API",
@@ -70,6 +70,18 @@ const executionNodes: NodeTypeOption[] = [
     label: "Anthropic",
     description: "Make requests to Anthropic API",
     icon: "/logos/anthropic.svg",
+  },
+  {
+    type: NodeType.DISCORD,
+    label: "Discord",
+    description: "Send a message to Discord",
+    icon: "/logos/discord.svg",
+  },
+  {
+    type: NodeType.SLACK,
+    label: "Slack",
+    description: "Send a message to Slack",
+    icon: "/logos/slack.svg",
   },
 ];
 

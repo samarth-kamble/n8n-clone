@@ -86,7 +86,8 @@ model Credential {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Node   Node[]
+
+  Node Node[]
 }
 
 enum CredentialType {
@@ -101,11 +102,12 @@ model Workflow {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   nodes       Node[]
   connections Connection[]
+  executions  Execution[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum NodeType {
@@ -115,8 +117,10 @@ enum NodeType {
   GOOGLE_FORM_TRIGGER
   STRIPE_TRIGGER
   ANTHROPIC
-  OPENAI
   GEMINI
+  OPENAI
+  DISCORD
+  SLACK
 }
 
 model Node {
@@ -153,7 +157,31 @@ model Connection {
   toInput    String @default("main")
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  updatedAt DateTime @updatedAt
 
-  @@unique([fromNodeId, fromOutput, toNodeId, toInput])
+  @@unique([fromNodeId, toNodeId, fromOutput, toInput])
+}
+
+enum ExecutionStatus {
+  RUNNING
+  SUCCESS
+  FAILED
+}
+
+model Execution {
+  id String @id @default(cuid())
+
+  workflowId String
+  workflow   Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  status     ExecutionStatus @default(RUNNING)
+  error      String?         @db.Text
+  errorStack String?         @db.Text
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  inngestEventId String @unique
+
+  output Json?
 }
