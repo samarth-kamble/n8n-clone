@@ -219,6 +219,17 @@ exports.Prisma.ExecutionScalarFieldEnum = {
   output: 'output'
 };
 
+exports.Prisma.DocumentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  mimeType: 'mimeType',
+  size: 'size',
+  content: 'content',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -264,7 +275,9 @@ exports.NodeType = exports.$Enums.NodeType = {
   GEMINI: 'GEMINI',
   OPENAI: 'OPENAI',
   DISCORD: 'DISCORD',
-  SLACK: 'SLACK'
+  SLACK: 'SLACK',
+  AI_AGENT: 'AI_AGENT',
+  DOCUMENT_LOADER: 'DOCUMENT_LOADER'
 };
 
 exports.ExecutionStatus = exports.$Enums.ExecutionStatus = {
@@ -282,7 +295,8 @@ exports.Prisma.ModelName = {
   Workflow: 'Workflow',
   Node: 'Node',
   Connection: 'Connection',
-  Execution: 'Execution'
+  Execution: 'Execution',
+  Document: 'Document'
 };
 
 /**

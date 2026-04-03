@@ -6,6 +6,7 @@ import {
   BrainCircuitIcon,
   CodeIcon,
   ExternalLinkIcon,
+  FileTextIcon,
   GlobeIcon,
   MousePointerIcon,
   SearchIcon,
@@ -137,6 +138,19 @@ const nodeCategories: NodeCategory[] = [
         label: "HTTP Request",
         description: "Make HTTP requests to external APIs",
         icon: GlobeIcon,
+      },
+    ],
+  },
+  {
+    id: "data",
+    label: "Data",
+    icon: FileTextIcon,
+    nodes: [
+      {
+        type: NodeType.DOCUMENT_LOADER,
+        label: "Document Loader",
+        description: "Load documents (PDF, DOCX, TXT, CSV) for AI processing",
+        icon: FileTextIcon,
       },
     ],
   },
