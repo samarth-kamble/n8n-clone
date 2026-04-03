@@ -26,6 +26,7 @@ model User {
   accounts      Account[]
   workflows     Workflow[]
   credentials   Credential[]
+  documents     Document[]
 
   @@unique([email])
   @@map("user")
@@ -121,6 +122,8 @@ enum NodeType {
   OPENAI
   DISCORD
   SLACK
+  AI_AGENT
+  DOCUMENT_LOADER
 }
 
 model Node {
@@ -184,4 +187,18 @@ model Execution {
   inngestEventId String @unique
 
   output Json?
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  name      String
+  mimeType  String
+  size      Int
+  content   String   @db.Text
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
