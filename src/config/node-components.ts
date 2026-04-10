@@ -13,6 +13,7 @@ import { SlackNode } from "@/features/executions/components/slack/node";
 import { DiscordNode } from "@/features/executions/components/discord/node";
 import { DocumentLoaderNode } from "@/features/executions/components/document-loader/node";
 import { GmailNode } from "@/features/executions/components/gmail/node";
+import { GmailTriggerNode } from "@/features/triggers/components/gmail-trigger/node";
 
 export const nodeComponents = {
   [NodeType.INITIAL]: InitialNode,
@@ -27,6 +28,7 @@ export const nodeComponents = {
   [NodeType.DISCORD]: DiscordNode,
   [NodeType.DOCUMENT_LOADER]: DocumentLoaderNode,
   [NodeType.GMAIL]: GmailNode,
+  [NodeType.GMAIL_TRIGGER]: GmailTriggerNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeType = keyof typeof nodeComponents;

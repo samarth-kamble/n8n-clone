@@ -279,7 +279,8 @@ exports.NodeType = exports.$Enums.NodeType = {
   SLACK: 'SLACK',
   AI_AGENT: 'AI_AGENT',
   DOCUMENT_LOADER: 'DOCUMENT_LOADER',
-  GMAIL: 'GMAIL'
+  GMAIL: 'GMAIL',
+  GMAIL_TRIGGER: 'GMAIL_TRIGGER'
 };
 
 exports.ExecutionStatus = exports.$Enums.ExecutionStatus = {

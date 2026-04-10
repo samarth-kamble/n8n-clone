@@ -82,6 +82,12 @@ const nodeCategories: NodeCategory[] = [
         description: "Runs the flow when a Stripe event is triggered",
         icon: "/logos/stripe.svg",
       },
+      {
+        type: NodeType.GMAIL_TRIGGER,
+        label: "Gmail Trigger",
+        description: "Runs the flow when a new email arrives",
+        icon: "/logos/gmail.svg",
+      },
     ],
   },
   {
