@@ -71,7 +71,8 @@ export namespace $Enums {
   export const CredentialType: {
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
-  GEMINI: 'GEMINI'
+  GEMINI: 'GEMINI',
+  GMAIL: 'GMAIL'
 };
 
 export type CredentialType = (typeof CredentialType)[keyof typeof CredentialType]
@@ -89,7 +90,8 @@ export const NodeType: {
   DISCORD: 'DISCORD',
   SLACK: 'SLACK',
   AI_AGENT: 'AI_AGENT',
-  DOCUMENT_LOADER: 'DOCUMENT_LOADER'
+  DOCUMENT_LOADER: 'DOCUMENT_LOADER',
+  GMAIL: 'GMAIL'
 };
 
 export type NodeType = (typeof NodeType)[keyof typeof NodeType]

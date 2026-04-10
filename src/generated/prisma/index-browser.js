@@ -262,7 +262,8 @@ exports.Prisma.JsonNullValueFilter = {
 exports.CredentialType = exports.$Enums.CredentialType = {
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
-  GEMINI: 'GEMINI'
+  GEMINI: 'GEMINI',
+  GMAIL: 'GMAIL'
 };
 
 exports.NodeType = exports.$Enums.NodeType = {
@@ -277,7 +278,8 @@ exports.NodeType = exports.$Enums.NodeType = {
   DISCORD: 'DISCORD',
   SLACK: 'SLACK',
   AI_AGENT: 'AI_AGENT',
-  DOCUMENT_LOADER: 'DOCUMENT_LOADER'
+  DOCUMENT_LOADER: 'DOCUMENT_LOADER',
+  GMAIL: 'GMAIL'
 };
 
 exports.ExecutionStatus = exports.$Enums.ExecutionStatus = {
