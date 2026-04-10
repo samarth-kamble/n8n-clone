@@ -62,6 +62,11 @@ const credentialTypeOptions = [
     label: "Gemini",
     logo: "/logos/gemini.svg",
   },
+  {
+    value: CredentialType.GMAIL,
+    label: "Gmail",
+    logo: "/logos/gmail.svg",
+  },
 ];
 
 interface CredentialFormProps {

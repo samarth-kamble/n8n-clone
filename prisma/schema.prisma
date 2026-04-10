@@ -95,6 +95,7 @@ enum CredentialType {
   OPENAI
   ANTHROPIC
   GEMINI
+  GMAIL
 }
 
 model Workflow {
@@ -124,6 +125,7 @@ enum NodeType {
   SLACK
   AI_AGENT
   DOCUMENT_LOADER
+  GMAIL
 }
 
 model Node {

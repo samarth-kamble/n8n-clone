@@ -126,6 +126,12 @@ const nodeCategories: NodeCategory[] = [
         description: "Send a message to Slack",
         icon: "/logos/slack.svg",
       },
+      {
+        type: NodeType.GMAIL,
+        label: "Gmail",
+        description: "Send an email via Gmail",
+        icon: "/logos/gmail.svg",
+      },
     ],
   },
   {
