@@ -11,6 +11,7 @@ import { discordExecutor } from "../components/discord/executor";
 import { slackExecutor } from "../components/slack/executor";
 import { documentLoaderExecutor } from "../components/document-loader/executor";
 import { gmailExecutor } from "../components/gmail/executor";
+import { gmailTriggerExecutor } from "@/features/triggers/components/gmail-trigger/executor";
 
 export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
@@ -26,6 +27,7 @@ export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.AI_AGENT]: manualTriggerExecutor,
   [NodeType.DOCUMENT_LOADER]: documentLoaderExecutor,
   [NodeType.GMAIL]: gmailExecutor,
+  [NodeType.GMAIL_TRIGGER]: gmailTriggerExecutor,
 };
 
 export const getExecuter = (type: NodeType): NodeExecutor => {

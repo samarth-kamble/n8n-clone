@@ -126,6 +126,7 @@ enum NodeType {
   AI_AGENT
   DOCUMENT_LOADER
   GMAIL
+  GMAIL_TRIGGER
 }
 
 model Node {
