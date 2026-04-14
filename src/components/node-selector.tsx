@@ -11,6 +11,7 @@ import {
   MousePointerIcon,
   SearchIcon,
   Share2Icon,
+  SplitIcon,
   ZapIcon,
 } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
@@ -145,6 +146,12 @@ const nodeCategories: NodeCategory[] = [
     label: "Developer Tools",
     icon: CodeIcon,
     nodes: [
+      {
+        type: NodeType.IF_CONDITION,
+        label: "IF Condition",
+        description: "Branch workflow conditionally based on a comparison",
+        icon: SplitIcon,
+      },
       {
         type: NodeType.HTTP_REQUEST,
         label: "HTTP Request",

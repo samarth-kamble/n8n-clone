@@ -12,6 +12,7 @@ import { slackExecutor } from "../components/slack/executor";
 import { documentLoaderExecutor } from "../components/document-loader/executor";
 import { gmailExecutor } from "../components/gmail/executor";
 import { gmailTriggerExecutor } from "@/features/triggers/components/gmail-trigger/executor";
+import { ifConditionExecutor } from "../components/if-condition/executor";
 
 export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
@@ -28,6 +29,7 @@ export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.DOCUMENT_LOADER]: documentLoaderExecutor,
   [NodeType.GMAIL]: gmailExecutor,
   [NodeType.GMAIL_TRIGGER]: gmailTriggerExecutor,
+  [NodeType.IF_CONDITION]: ifConditionExecutor,
 };
 
 export const getExecuter = (type: NodeType): NodeExecutor => {

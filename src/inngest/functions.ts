@@ -16,6 +16,7 @@ import { slackChannel } from "./channels/slack";
 import { documentLoaderChannel } from "./channels/document-loader";
 import { gmailChannel } from "./channels/gmail";
 import { gmailTriggerChannel } from "./channels/gmail-trigger";
+import { ifConditionChannel } from "./channels/if-condition";
 
 export const executeWorkflow = inngest.createFunction(
   {
@@ -47,6 +48,7 @@ export const executeWorkflow = inngest.createFunction(
       documentLoaderChannel(),
       gmailChannel(),
       gmailTriggerChannel(),
+      ifConditionChannel(),
     ],
   },
   async ({ event, step, publish }) => {
@@ -92,10 +94,27 @@ export const executeWorkflow = inngest.createFunction(
     // Initialize context with any initial data from the trigger
     let context = event.data.initialData || {};
 
+    const workflow = await prisma.workflow.findUniqueOrThrow({
+      where: { id: workflowId },
+      include: { connections: true },
+    });
+
+    const triggeredNextNodeIds = new Set<string>();
+
+    const startNodes = sortedNodes.filter(
+      (n) => !workflow.connections.some((c) => c.toNodeId === n.id)
+    );
+    startNodes.forEach((n) => triggeredNextNodeIds.add(n.id));
+
     // Execute each node
     for (const node of sortedNodes) {
+      const hasInputs = workflow.connections.some((c) => c.toNodeId === node.id);
+      if (hasInputs && !triggeredNextNodeIds.has(node.id)) {
+        continue;
+      }
+
       const executor = getExecuter(node.type as NodeType);
-      context = await executor({
+      const output = await executor({
         data: node.data as Record<string, unknown>,
         nodeId: node.id,
         userId,
@@ -103,6 +122,22 @@ export const executeWorkflow = inngest.createFunction(
         step,
         publish,
       });
+
+      let activeOutput = "main";
+      if (output && "$outputBranch" in output) {
+        activeOutput = output.$outputBranch as string;
+        delete output.$outputBranch;
+      }
+      context = output;
+
+      const activeOutgoingConnections = workflow.connections.filter(
+        (c) =>
+          c.fromNodeId === node.id &&
+          (c.fromOutput === activeOutput ||
+            (activeOutput === "main" && c.fromOutput === "source-1") ||
+            activeOutput === "main")
+      );
+      activeOutgoingConnections.forEach((c) => triggeredNextNodeIds.add(c.toNodeId));
     }
 
     await step.run("update-execution", async () => {
