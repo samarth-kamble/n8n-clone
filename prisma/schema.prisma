@@ -127,6 +127,7 @@ enum NodeType {
   DOCUMENT_LOADER
   GMAIL
   GMAIL_TRIGGER
+  IF_CONDITION
 }
 
 model Node {

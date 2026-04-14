@@ -92,7 +92,8 @@ export const NodeType: {
   AI_AGENT: 'AI_AGENT',
   DOCUMENT_LOADER: 'DOCUMENT_LOADER',
   GMAIL: 'GMAIL',
-  GMAIL_TRIGGER: 'GMAIL_TRIGGER'
+  GMAIL_TRIGGER: 'GMAIL_TRIGGER',
+  IF_CONDITION: 'IF_CONDITION'
 };
 
 export type NodeType = (typeof NodeType)[keyof typeof NodeType]
