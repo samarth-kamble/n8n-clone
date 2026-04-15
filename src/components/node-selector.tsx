@@ -4,6 +4,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { useReactFlow } from "@xyflow/react";
 import {
   BrainCircuitIcon,
+  Clock,
   CodeIcon,
   ExternalLinkIcon,
   FileTextIcon,
@@ -89,6 +90,18 @@ const nodeCategories: NodeCategory[] = [
         description: "Runs the flow when a new email arrives",
         icon: "/logos/gmail.svg",
       },
+      {
+        type: NodeType.TELEGRAM_TRIGGER,
+        label: "Telegram Trigger",
+        description: "Runs the flow when a Telegram message is received",
+        icon: "/logos/telegram.svg",
+      },
+      {
+        type: NodeType.SCHEDULE_TRIGGER,
+        label: "Schedule Trigger",
+        description: "Runs the flow at a scheduled time (Cron)",
+        icon: Clock,
+      },
     ],
   },
   {
@@ -138,6 +151,12 @@ const nodeCategories: NodeCategory[] = [
         label: "Gmail",
         description: "Send an email via Gmail",
         icon: "/logos/gmail.svg",
+      },
+      {
+        type: NodeType.TELEGRAM,
+        label: "Telegram",
+        description: "Send a message via Telegram Bot",
+        icon: "/logos/telegram.svg",
       },
     ],
   },

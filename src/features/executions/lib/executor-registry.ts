@@ -13,6 +13,9 @@ import { documentLoaderExecutor } from "../components/document-loader/executor";
 import { gmailExecutor } from "../components/gmail/executor";
 import { gmailTriggerExecutor } from "@/features/triggers/components/gmail-trigger/executor";
 import { ifConditionExecutor } from "../components/if-condition/executor";
+import { scheduleTriggerExecutor } from "@/features/triggers/components/schedule-trigger/executor";
+import { telegramExecutor } from "../components/telegram/executor";
+import { telegramTriggerExecutor } from "@/features/triggers/components/telegram-trigger/executor";
 
 export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
@@ -30,6 +33,9 @@ export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.GMAIL]: gmailExecutor,
   [NodeType.GMAIL_TRIGGER]: gmailTriggerExecutor,
   [NodeType.IF_CONDITION]: ifConditionExecutor,
+  [NodeType.SCHEDULE_TRIGGER]: scheduleTriggerExecutor,
+  [NodeType.TELEGRAM]: telegramExecutor,
+  [NodeType.TELEGRAM_TRIGGER]: telegramTriggerExecutor,
 };
 
 export const getExecuter = (type: NodeType): NodeExecutor => {

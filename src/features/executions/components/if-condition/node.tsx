@@ -17,7 +17,13 @@ import { BaseHandle } from "@/components/react-flow/base-handle";
 
 type IfConditionNodeData = {
   variable?: string;
-  operator?: string;
+  operator?:
+    | "EQUALS"
+    | "NOT_EQUALS"
+    | "CONTAINS"
+    | "NOT_CONTAINS"
+    | "GREATER_THAN"
+    | "LESS_THAN";
   value?: string;
 };
 
