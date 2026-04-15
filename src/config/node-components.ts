@@ -15,6 +15,8 @@ import { DocumentLoaderNode } from "@/features/executions/components/document-lo
 import { GmailNode } from "@/features/executions/components/gmail/node";
 import { GmailTriggerNode } from "@/features/triggers/components/gmail-trigger/node";
 import { IfConditionNode } from "@/features/executions/components/if-condition/node";
+import { TelegramNode } from "@/features/executions/components/telegram/node";
+import { TelegramTriggerNode } from "@/features/triggers/components/telegram-trigger/node";
 
 export const nodeComponents = {
   [NodeType.INITIAL]: InitialNode,
@@ -31,6 +33,8 @@ export const nodeComponents = {
   [NodeType.GMAIL]: GmailNode,
   [NodeType.GMAIL_TRIGGER]: GmailTriggerNode,
   [NodeType.IF_CONDITION]: IfConditionNode,
+  [NodeType.TELEGRAM]: TelegramNode,
+  [NodeType.TELEGRAM_TRIGGER]: TelegramTriggerNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeType = keyof typeof nodeComponents;

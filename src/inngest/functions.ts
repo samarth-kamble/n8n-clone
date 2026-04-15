@@ -17,6 +17,9 @@ import { documentLoaderChannel } from "./channels/document-loader";
 import { gmailChannel } from "./channels/gmail";
 import { gmailTriggerChannel } from "./channels/gmail-trigger";
 import { ifConditionChannel } from "./channels/if-condition";
+import { scheduleTriggerChannel } from "./channels/schedule-trigger";
+import { telegramChannel } from "./channels/telegram";
+import { telegramTriggerChannel } from "./channels/telegram-trigger";
 
 export const executeWorkflow = inngest.createFunction(
   {
@@ -49,6 +52,9 @@ export const executeWorkflow = inngest.createFunction(
       gmailChannel(),
       gmailTriggerChannel(),
       ifConditionChannel(),
+      scheduleTriggerChannel(),
+      telegramChannel(),
+      telegramTriggerChannel(),
     ],
   },
   async ({ event, step, publish }) => {
