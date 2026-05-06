@@ -28,6 +28,11 @@ import { NodeType } from "@/generated/prisma";
 
 import { AddNodeButton } from "./add-node-button";
 import { ExecuteWorkflowButton } from "./execute-workflow-button";
+import { DeletableEdge } from "@/components/react-flow/deletable-edge";
+
+const edgeTypes = {
+  default: DeletableEdge,
+};
 
 export const EditorLoading = () => {
   return <LoadingView message="Loading editor...." />;
@@ -86,6 +91,8 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeComponents}
+        edgeTypes={edgeTypes}
+        defaultEdgeOptions={{ type: "default" }}
         onInit={setEditor}
         fitView
         colorMode={isDark ? "dark" : "light"}
