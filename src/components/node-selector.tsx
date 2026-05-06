@@ -194,7 +194,7 @@ const nodeCategories: NodeCategory[] = [
   },
 ];
 
-const DOCS_URL = "http://localhost:3000/docs";
+const DOCS_URL = "/docs";
 
 // ---------------------------------------------------------------------------
 // Component
