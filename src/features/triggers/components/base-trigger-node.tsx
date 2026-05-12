@@ -53,7 +53,7 @@ export const BaseTriggerNode = memo(
     return (
       <div className="flex items-start">
         {/* Node + Name column */}
-        <div className="flex flex-col items-center relative group w-[80px] overflow-visible">
+        <div className="flex flex-col items-center relative group w-[64px] overflow-visible">
           {/* Lightning bolt */}
           <ZapIcon className="absolute -left-6 top-0 size-4 text-orange-500 fill-orange-500" />
 
@@ -79,16 +79,16 @@ export const BaseTriggerNode = memo(
             <BaseNode
               status={status}
               onDoubleClick={onDoubleClick}
-              className="w-[80px] h-[80px]"
+              className="w-[64px] h-[64px]"
               style={{
-                borderRadius: "32px 0px 0px 32px",
+                borderRadius: "24px 0px 0px 24px",
               }}
             >
               <BaseNodeContent className="items-center justify-center h-full p-0">
                 {typeof Icon === "string" ? (
-                  <Image src={Icon} alt={name} width={36} height={36} />
+                  <Image src={Icon} alt={name} width={32} height={32} />
                 ) : (
-                  <Icon className="size-9 text-muted-foreground" />
+                  <Icon className="size-8 text-muted-foreground" />
                 )}
                 {children}
                 <BaseHandle
@@ -115,7 +115,7 @@ export const BaseTriggerNode = memo(
 
         {/* Line + Plus — only when no outgoing edge */}
         {!hasOutgoingEdge && (
-          <div className="flex items-center mt-[28px]">
+          <div className="flex items-center mt-[20px]">
             <div className="w-8 h-[2px] bg-border" />
             <NodeSelector open={selectorOpen} onOpenChange={setSelectorOpen}>
               <div

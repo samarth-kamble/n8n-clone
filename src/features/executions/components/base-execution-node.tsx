@@ -53,7 +53,7 @@ export const BaseExecutionNode = memo(
     return (
       <div className="flex items-start">
         {/* Node + Name column */}
-        <div className="flex flex-col items-center relative group w-[80px] overflow-visible">
+        <div className="flex flex-col items-center relative group w-[64px] overflow-visible">
           {/* Toolbar — centered above the node, visible on hover */}
           <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5 z-10">
             {onSettings && (
@@ -76,13 +76,13 @@ export const BaseExecutionNode = memo(
             <BaseNode
               status={status}
               onDoubleClick={onDoubleClick}
-              className="!rounded-xl w-[80px] h-[80px]"
+              className="!rounded-xl w-[64px] h-[64px]"
             >
               <BaseNodeContent className="items-center justify-center h-full p-0">
                 {typeof Icon === "string" ? (
-                  <Image src={Icon} alt={name} width={36} height={36} />
+                  <Image src={Icon} alt={name} width={32} height={32} />
                 ) : (
-                  <Icon className="size-9 text-muted-foreground" />
+                  <Icon className="size-8 text-muted-foreground" />
                 )}
                 {children}
                 <BaseHandle
@@ -114,7 +114,7 @@ export const BaseExecutionNode = memo(
 
         {/* Line + Plus — only when no outgoing edge */}
         {!hasOutgoingEdge && (
-          <div className="flex items-center mt-[28px]">
+          <div className="flex items-center mt-[20px]">
             <div className="w-8 h-[2px] bg-border" />
             <NodeSelector open={selectorOpen} onOpenChange={setSelectorOpen}>
               <div
