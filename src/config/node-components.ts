@@ -17,6 +17,11 @@ import { GmailTriggerNode } from "@/features/triggers/components/gmail-trigger/n
 import { IfConditionNode } from "@/features/executions/components/if-condition/node";
 import { TelegramNode } from "@/features/executions/components/telegram/node";
 import { TelegramTriggerNode } from "@/features/triggers/components/telegram-trigger/node";
+import { TextSplitterNode } from "@/features/executions/components/text-splitter/node";
+import { InsertPineconeNode } from "@/features/executions/components/insert-pinecone/node";
+import { VectorRetrieverNode } from "@/features/executions/components/vector-retriever/node";
+import { RagAgentNode } from "@/features/executions/components/rag-agent/node";
+import { ChatMemoryNode } from "@/features/executions/components/chat-memory/node";
 
 export const nodeComponents = {
   [NodeType.INITIAL]: InitialNode,
@@ -35,6 +40,11 @@ export const nodeComponents = {
   [NodeType.IF_CONDITION]: IfConditionNode,
   [NodeType.TELEGRAM]: TelegramNode,
   [NodeType.TELEGRAM_TRIGGER]: TelegramTriggerNode,
+  [NodeType.TEXT_SPLITTER]: TextSplitterNode,
+  [NodeType.INSERT_PINECONE]: InsertPineconeNode,
+  [NodeType.VECTOR_RETRIEVER]: VectorRetrieverNode,
+  [NodeType.RAG_AGENT]: RagAgentNode,
+  [NodeType.CHAT_MEMORY]: ChatMemoryNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeType = keyof typeof nodeComponents;

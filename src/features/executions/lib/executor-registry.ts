@@ -16,6 +16,11 @@ import { ifConditionExecutor } from "../components/if-condition/executor";
 import { scheduleTriggerExecutor } from "@/features/triggers/components/schedule-trigger/executor";
 import { telegramExecutor } from "../components/telegram/executor";
 import { telegramTriggerExecutor } from "@/features/triggers/components/telegram-trigger/executor";
+import { textSplitterExecutor } from "../components/text-splitter/executor";
+import { insertPineconeExecutor } from "../components/insert-pinecone/executor";
+import { vectorRetrieverExecutor } from "../components/vector-retriever/executor";
+import { ragAgentExecutor } from "../components/rag-agent/executor";
+import { chatMemoryExecutor } from "../components/chat-memory/executor";
 
 export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
@@ -36,6 +41,11 @@ export const executerRegistory: Record<NodeType, NodeExecutor> = {
   [NodeType.SCHEDULE_TRIGGER]: scheduleTriggerExecutor,
   [NodeType.TELEGRAM]: telegramExecutor,
   [NodeType.TELEGRAM_TRIGGER]: telegramTriggerExecutor,
+  [NodeType.TEXT_SPLITTER]: textSplitterExecutor,
+  [NodeType.INSERT_PINECONE]: insertPineconeExecutor,
+  [NodeType.VECTOR_RETRIEVER]: vectorRetrieverExecutor,
+  [NodeType.RAG_AGENT]: ragAgentExecutor,
+  [NodeType.CHAT_MEMORY]: chatMemoryExecutor,
 };
 
 export const getExecuter = (type: NodeType): NodeExecutor => {

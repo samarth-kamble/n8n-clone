@@ -72,7 +72,8 @@ export namespace $Enums {
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
   GEMINI: 'GEMINI',
-  GMAIL: 'GMAIL'
+  GMAIL: 'GMAIL',
+  PINECONE: 'PINECONE'
 };
 
 export type CredentialType = (typeof CredentialType)[keyof typeof CredentialType]
@@ -96,7 +97,12 @@ export const NodeType: {
   IF_CONDITION: 'IF_CONDITION',
   SCHEDULE_TRIGGER: 'SCHEDULE_TRIGGER',
   TELEGRAM: 'TELEGRAM',
-  TELEGRAM_TRIGGER: 'TELEGRAM_TRIGGER'
+  TELEGRAM_TRIGGER: 'TELEGRAM_TRIGGER',
+  TEXT_SPLITTER: 'TEXT_SPLITTER',
+  INSERT_PINECONE: 'INSERT_PINECONE',
+  VECTOR_RETRIEVER: 'VECTOR_RETRIEVER',
+  RAG_AGENT: 'RAG_AGENT',
+  CHAT_MEMORY: 'CHAT_MEMORY'
 };
 
 export type NodeType = (typeof NodeType)[keyof typeof NodeType]
