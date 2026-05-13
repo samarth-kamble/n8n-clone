@@ -341,6 +341,150 @@ export const docSections: DocSection[] = [
     ]
   },
   {
+    id: "rag-nodes",
+    title: "RAG (Vector Search)",
+    icon: "🔍",
+    description: "Build custom chatbots that answer questions based on your own uploaded documents using Retrieval-Augmented Generation.",
+    items: [
+      {
+        id: "text-splitter",
+        title: "Text Splitter",
+        icon: "✂️",
+        category: "RAG",
+        description: "Breaks large documents down into smaller semantic chunks to optimize vector similarity searches.",
+        details: "Language models have token limits. The Text Splitter takes a large extracted text and intelligently chunks it based on size and overlap parameters, preparing it for Pinecone ingestion.",
+        steps: [
+          "Extract text using the Document Loader node.",
+          "Add a 'Text Splitter' node and reference the Document Loader's output variable.",
+          "Set the Chunk Size (e.g., 1000 characters) and Overlap (e.g., 200 characters).",
+          "Select the separator strategy (Newline, Sentence, Paragraph).",
+          "Output is an array of strings ready for embedding."
+        ],
+        config: [
+          { label: "Variable Name", description: "The variable key to store output. Default: 'myChunks'." },
+          { label: "Source Variable", description: "The exact variable containing your large text string (e.g., 'document.text')." },
+          { label: "Chunk Size", description: "Maximum number of characters per chunk. Recommended: 1000." },
+          { label: "Chunk Overlap", description: "Number of characters to overlap to preserve context. Recommended: 200." },
+          { label: "Separator", description: "Defines where the text splits (Newline, Sentence, or Paragraph)." }
+        ],
+        tips: ["Use 1000 size and 200 overlap as a strong default.", "Connect this to an Insert Pinecone node."]
+      },
+      {
+        id: "insert-pinecone",
+        title: "Insert Pinecone",
+        icon: "/logos/pinecone.svg",
+        category: "RAG",
+        description: "Generates vector embeddings for your text chunks and upserts them into a Pinecone database.",
+        details: "This node converts an array of text chunks into numerical vectors using OpenAI's text-embedding-3-small model, and then inserts them securely into your Pinecone index.",
+        steps: [
+          "Create a Pinecone credential securely in the Credentials dashboard.",
+          "Add an 'Insert Pinecone' node.",
+          "Reference the output chunks variable from the Text Splitter.",
+          "Enter your Pinecone Index Name (must be configured to 1536 dimensions).",
+          "Execute the node to populate your vector database."
+        ],
+        config: [
+          { label: "Variable Name", description: "The variable key to store the insertion status." },
+          { label: "Pinecone Credential", description: "Select your saved Pinecone API key." },
+          { label: "Index Name", description: "The exact name of your Pinecone index." },
+          { label: "Source Chunks Variable", description: "The output array from Text Splitter (e.g., 'myChunks.chunks')." },
+          { label: "OpenAI Credential", description: "Select your saved OpenAI key. This is required to generate the vector embeddings." },
+          { label: "Namespace (Optional)", description: "Isolate documents within the same index. Example: 'HR-docs' or 'marketing'." },
+          { label: "Embedding Model", description: "Default is 'text-embedding-3-small'." }
+        ],
+        tips: [
+          "CRITICAL: When creating your index in Pinecone, you MUST set the Dimensions to 1536 to match the OpenAI 'text-embedding-3-small' model.",
+          "If you choose a different vector size in Pinecone, you will get a 'Vector dimension mismatch' error!",
+          "Do NOT type the word 'default' in the Namespace field. If you don't have a specific namespace, leave it completely blank."
+        ]
+      },
+      {
+        id: "vector-retriever",
+        title: "Vector Retriever",
+        icon: "🎯",
+        category: "RAG",
+        description: "Searches the Pinecone index for the most semantically similar text chunks to a user's query.",
+        details: "When a user asks a question, this node embeds their query and performs a similarity search against Pinecone, returning a formatted string of the most relevant context.",
+        steps: [
+          "Add a 'Vector Retriever' node.",
+          "Set the Query Variable (e.g., trigger.message) containing the user's question.",
+          "Select your Pinecone credential and Index Name.",
+          "Set the Top K limit (how many chunks to retrieve).",
+          "The output is a single formatted string of context."
+        ],
+        config: [
+          { label: "Variable Name", description: "The variable key to store the output context. Default: 'retrieval'." },
+          { label: "Pinecone Credential", description: "Select your saved Pinecone API key." },
+          { label: "Index Name", description: "The exact name of your Pinecone index." },
+          { label: "Namespace (Optional)", description: "The specific namespace to search within." },
+          { label: "Query Variable", description: "The dynamic variable with the user's question (e.g., 'trigger.message')." },
+          { label: "Top K Results", description: "Number of most relevant chunks to retrieve (1-20). Default: 5." },
+          { label: "OpenAI Credential", description: "Select your saved OpenAI key for generating the query embedding." },
+          { label: "Embedding Model", description: "Must match the model used for insertion. Default: 'text-embedding-3-small'." }
+        ],
+        tips: [
+          "CRITICAL: The Query Variable must match your trigger! For Telegram triggers, type exactly 'telegram_message' (not 'trigger.message').",
+          "CRITICAL: Leave the Namespace field completely blank if you left it blank during the Insert Pinecone step.",
+          "Ensure your Pinecone Index dimensions match the Embedding Model (1536 for OpenAI)."
+        ]
+      },
+      {
+        id: "rag-agent",
+        title: "RAG Agent",
+        icon: "🤖",
+        category: "RAG",
+        description: "Combines retrieved context with an AI model to generate highly accurate, context-aware answers.",
+        details: "The intelligence layer of the RAG pipeline. It builds a structured prompt containing the user's query, the retrieved context from Pinecone, and any previous chat history, and sends it to OpenAI.",
+        steps: [
+          "Add a 'RAG Agent' node.",
+          "Map the Query Variable (the user's question) and the Context Variable (output from Vector Retriever).",
+          "Optionally map the Chat History Variable from the Chat Memory node.",
+          "Select the OpenAI model (e.g., GPT-4o).",
+          "The node returns the final synthesized answer."
+        ],
+        config: [
+          { label: "Variable Name", description: "The variable key to store the AI response. Default: 'aiResponse'." },
+          { label: "OpenAI Credential", description: "Select your saved OpenAI key for generation." },
+          { label: "Model", description: "The LLM to use (e.g., GPT-4o Mini)." },
+          { label: "Context Variable", description: "The retrieved text from Vector Retriever (e.g., 'retrieval.context')." },
+          { label: "Query Variable", description: "The user's question (e.g., 'trigger.message')." },
+          { label: "Chat History Variable (Optional)", description: "The history output from Chat Memory (e.g., 'chatMem.history')." },
+          { label: "System Prompt", description: "Custom instructions for the AI (e.g., 'Always cite your sources.')." },
+          { label: "Temperature", description: "Creativity of the response. Default: 0.7." }
+        ],
+        tips: [
+          "CRITICAL: Your Query Variable here MUST exactly match the Query Variable in your Vector Retriever (e.g., 'telegram_message' for Telegram).",
+          "If the context is empty, the RAG agent will gracefully tell the user it doesn't have enough information.",
+          "If the Query Variable isn't found, you can type a static question directly into the field for testing."
+        ]
+      },
+      {
+        id: "chat-memory",
+        title: "Chat Memory",
+        icon: "🧠",
+        category: "RAG",
+        description: "Manages multi-turn conversation state to give your AI agents conversational memory.",
+        details: "Stores and retrieves previous chat messages for a specific session ID, preventing the AI from losing track of the conversation.",
+        steps: [
+          "Add a 'Chat Memory' node before your Retriever/Agent.",
+          "Provide a Session ID (e.g., trigger.chatId).",
+          "Set the Max Messages limit to prevent blowing up the LLM token context window.",
+          "Map the output history into the RAG Agent's Chat History Variable."
+        ],
+        config: [
+          { label: "Variable Name", description: "The variable key to store the formatted history. Default: 'chatMem'." },
+          { label: "Session ID", description: "Unique identifier for the user (e.g., 'trigger.chatId' or 'user.id')." },
+          { label: "Max Messages", description: "Sliding window limit for recent messages. Default: 10." }
+        ],
+        tips: [
+          "CRITICAL: The Session ID must match your trigger! For Telegram triggers, type exactly 'telegram_chat_id' (not 'trigger.chatId').",
+          "For manual testing, type a static string like 'test-session-1' into the Session ID field.",
+          "This node should run BEFORE the RAG Agent so the history is ready to be consumed."
+        ]
+      }
+    ]
+  },
+  {
     id: "developer-tools",
     title: "Developer Tools",
     icon: "🛠️",

@@ -67,6 +67,11 @@ const credentialTypeOptions = [
     label: "Gmail",
     logo: "/logos/gmail.svg",
   },
+  {
+    value: CredentialType.PINECONE,
+    label: "Pinecone",
+    logo: "/logos/pinecone.svg",
+  },
 ];
 
 interface CredentialFormProps {

@@ -263,7 +263,8 @@ exports.CredentialType = exports.$Enums.CredentialType = {
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
   GEMINI: 'GEMINI',
-  GMAIL: 'GMAIL'
+  GMAIL: 'GMAIL',
+  PINECONE: 'PINECONE'
 };
 
 exports.NodeType = exports.$Enums.NodeType = {
@@ -284,7 +285,12 @@ exports.NodeType = exports.$Enums.NodeType = {
   IF_CONDITION: 'IF_CONDITION',
   SCHEDULE_TRIGGER: 'SCHEDULE_TRIGGER',
   TELEGRAM: 'TELEGRAM',
-  TELEGRAM_TRIGGER: 'TELEGRAM_TRIGGER'
+  TELEGRAM_TRIGGER: 'TELEGRAM_TRIGGER',
+  TEXT_SPLITTER: 'TEXT_SPLITTER',
+  INSERT_PINECONE: 'INSERT_PINECONE',
+  VECTOR_RETRIEVER: 'VECTOR_RETRIEVER',
+  RAG_AGENT: 'RAG_AGENT',
+  CHAT_MEMORY: 'CHAT_MEMORY'
 };
 
 exports.ExecutionStatus = exports.$Enums.ExecutionStatus = {

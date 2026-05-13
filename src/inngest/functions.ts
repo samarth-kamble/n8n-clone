@@ -20,6 +20,11 @@ import { ifConditionChannel } from "./channels/if-condition";
 import { scheduleTriggerChannel } from "./channels/schedule-trigger";
 import { telegramChannel } from "./channels/telegram";
 import { telegramTriggerChannel } from "./channels/telegram-trigger";
+import { textSplitterChannel } from "./channels/text-splitter";
+import { insertPineconeChannel } from "./channels/insert-pinecone";
+import { vectorRetrieverChannel } from "./channels/vector-retriever";
+import { ragAgentChannel } from "./channels/rag-agent";
+import { chatMemoryChannel } from "./channels/chat-memory";
 
 export const executeWorkflow = inngest.createFunction(
   {
@@ -55,6 +60,11 @@ export const executeWorkflow = inngest.createFunction(
       scheduleTriggerChannel(),
       telegramChannel(),
       telegramTriggerChannel(),
+      textSplitterChannel(),
+      insertPineconeChannel(),
+      vectorRetrieverChannel(),
+      ragAgentChannel(),
+      chatMemoryChannel(),
     ],
   },
   async ({ event, step, publish }) => {

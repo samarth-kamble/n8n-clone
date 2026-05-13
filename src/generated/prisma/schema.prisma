@@ -97,6 +97,7 @@ enum CredentialType {
   ANTHROPIC
   GEMINI
   GMAIL
+  PINECONE
 }
 
 model Workflow {
@@ -132,6 +133,11 @@ enum NodeType {
   SCHEDULE_TRIGGER
   TELEGRAM
   TELEGRAM_TRIGGER
+  TEXT_SPLITTER
+  INSERT_PINECONE
+  VECTOR_RETRIEVER
+  RAG_AGENT
+  CHAT_MEMORY
 }
 
 model Node {
