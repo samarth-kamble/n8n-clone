@@ -16,14 +16,14 @@ import {
   MiniMap,
   Panel,
 } from "@xyflow/react";
-import { useSetAtom } from "jotai";
+import { useSetAtom, useAtomValue } from "jotai";
 import { useTheme } from "next-themes";
 
 import "@xyflow/react/dist/style.css";
 import { ErrorView, LoadingView } from "@/components/entity-components";
 import { useSuspenseWorkflow } from "@/features/workflows/hooks/use-workflows";
 import { nodeComponents } from "@/config/node-components";
-import { editorAtom } from "@/features/editor/store/atoms";
+import { editorAtom, isExecutingAtom } from "@/features/editor/store/atoms";
 import { NodeType } from "@/generated/prisma";
 
 import { AddNodeButton } from "./add-node-button";
@@ -78,6 +78,15 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
     return nodes.some((node) => node.type === NodeType.MANUAL_TRIGGER);
   }, [nodes]);
 
+  const isExecuting = useAtomValue(isExecutingAtom);
+
+  const dynamicEdges = useMemo(() => {
+    return edges.map((e) => ({
+      ...e,
+      animated: isExecuting,
+    }));
+  }, [edges, isExecuting]);
+
   if (!mounted) {
     return null;
   }
@@ -86,7 +95,7 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
     <div className="size-full">
       <ReactFlow
         nodes={nodes}
-        edges={edges}
+        edges={dynamicEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}

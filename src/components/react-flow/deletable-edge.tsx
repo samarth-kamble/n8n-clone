@@ -20,6 +20,7 @@ export function DeletableEdge({
   targetPosition,
   style = {},
   markerEnd,
+  animated,
 }: EdgeProps) {
   const { setEdges } = useReactFlow();
   const [hovered, setHovered] = useState(false);
@@ -59,6 +60,12 @@ export function DeletableEdge({
           transition: "stroke 0.15s, stroke-width 0.15s",
         }}
       />
+      {/* Pulse Particle Animation */}
+      {animated && (
+        <circle r="4" fill="hsl(var(--primary))">
+          <animateMotion dur="1.5s" repeatCount="indefinite" path={edgePath} />
+        </circle>
+      )}
       {hovered && (
         <EdgeLabelRenderer>
           <div

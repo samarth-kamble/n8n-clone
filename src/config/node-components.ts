@@ -22,6 +22,7 @@ import { InsertPineconeNode } from "@/features/executions/components/insert-pine
 import { VectorRetrieverNode } from "@/features/executions/components/vector-retriever/node";
 import { RagAgentNode } from "@/features/executions/components/rag-agent/node";
 import { ChatMemoryNode } from "@/features/executions/components/chat-memory/node";
+import { ScheduleTriggerNode } from "@/features/triggers/components/schedule-trigger/node";
 
 export const nodeComponents = {
   [NodeType.INITIAL]: InitialNode,
@@ -38,6 +39,7 @@ export const nodeComponents = {
   [NodeType.GMAIL]: GmailNode,
   [NodeType.GMAIL_TRIGGER]: GmailTriggerNode,
   [NodeType.IF_CONDITION]: IfConditionNode,
+  [NodeType.SCHEDULE_TRIGGER]: ScheduleTriggerNode,
   [NodeType.TELEGRAM]: TelegramNode,
   [NodeType.TELEGRAM_TRIGGER]: TelegramTriggerNode,
   [NodeType.TEXT_SPLITTER]: TextSplitterNode,
